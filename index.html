@@ -236,9 +236,6 @@ p{margin:0}
 }
 .hero__title{color:var(--white);letter-spacing:-.025em;font-weight:500}
 .hero__title em{font-style:italic;color:var(--brand);font-weight:400}
-.hero__title .word{display:inline-block;white-space:nowrap;margin-right:.18em}
-.hero__title .char{display:inline-block;opacity:0;transform:translateY(.5em);transition:transform .8s var(--ease), opacity .8s var(--ease)}
-.is-ready .hero__title .char{opacity:1;transform:translateY(0)}
 .hero__sub{margin-top:24px;font-size:clamp(16px,1.4vw,19px);color:rgba(255,255,255,.78);line-height:1.6;max-width:540px}
 .hero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
 .hero__trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
@@ -323,26 +320,57 @@ p{margin:0}
 .s-head p{color:var(--mute);font-size:clamp(15px,1.2vw,17px);line-height:1.6}
 
 /* Benefits */
-.benefits{background:var(--paper)}
-.benefits__grid{display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:640px){.benefits__grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1024px){.benefits__grid{grid-template-columns:repeat(4,1fr);gap:22px}}
+/* Benefits — sticky stack on desktop, simple stack on mobile */
+.benefits{background:var(--paper);position:relative}
+.benefits__grid{display:flex;flex-direction:column;gap:18px;max-width:880px;margin:0 auto}
 .benefit{
-  position:relative;padding:36px 28px;border-radius:var(--radius);
+  position:relative;padding:42px 36px;border-radius:var(--radius);
   background:var(--white);border:1px solid var(--line);
-  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .35s;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+  display:grid;grid-template-columns:1fr;gap:14px;
 }
-.benefit:hover{transform:translateY(-6px);box-shadow:var(--shadow-card);border-color:transparent}
 .benefit__num{font-family:var(--serif);font-size:13px;color:var(--mute);letter-spacing:.04em;font-weight:500}
 .benefit__icon{
-  width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,var(--brand) 0%, var(--brand-2) 100%);
-  color:#fff;margin:22px 0 28px;
+  color:#fff;
   box-shadow:0 12px 24px rgba(28,191,214,.28);
 }
-.benefit__icon svg{width:24px;height:24px}
-.benefit h3{font-size:22px;font-weight:600;font-family:var(--serif);margin-bottom:10px}
-.benefit p{color:var(--text-2);font-size:14.5px;line-height:1.6}
+.benefit__icon svg{width:26px;height:26px}
+.benefit h3{font-size:26px;font-weight:600;font-family:var(--serif);margin:0}
+.benefit p{color:var(--text-2);font-size:15.5px;line-height:1.6;margin:0;max-width:560px}
+
+/* Sticky stack — only on desktop (>=900px) */
+@media(min-width:900px){
+  .benefits__grid{gap:24px;max-width:none}
+  .benefit{
+    position:sticky;
+    min-height:62vh;
+    padding:64px 72px;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;gap:48px;
+    box-shadow:0 1px 2px rgba(11,23,33,.05), 0 24px 50px rgba(11,23,33,.08);
+    border:1px solid var(--line);
+    background:#fff;
+    overflow:hidden;
+  }
+  .benefit::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(circle at 100% 0%, rgba(28,191,214,.08), transparent 50%);
+    pointer-events:none;
+  }
+  .benefit:nth-child(1){top:120px;background:#fff}
+  .benefit:nth-child(2){top:144px;background:linear-gradient(180deg,#fff,#f9faf9)}
+  .benefit:nth-child(3){top:168px;background:linear-gradient(180deg,#fff,#f4f6f6)}
+  .benefit:nth-child(4){top:192px;background:linear-gradient(180deg,#fff,#eef2f2)}
+  .benefit__num{order:-1;grid-column:1;align-self:start;font-family:var(--serif);font-size:18px;color:var(--brand-2);letter-spacing:.08em;font-weight:500;writing-mode:vertical-rl;transform:rotate(180deg)}
+  .benefit__icon{grid-column:3;width:90px;height:90px;border-radius:24px}
+  .benefit__icon svg{width:38px;height:38px}
+  .benefit__body{grid-column:2;display:flex;flex-direction:column;gap:18px}
+  .benefit h3{font-size:clamp(36px,3.6vw,52px);line-height:1.05;letter-spacing:-.01em}
+  .benefit p{font-size:18px;line-height:1.55}
+}
+.benefit__body{display:contents}
 
 /* About */
 .about{background:var(--paper-2);position:relative;overflow:hidden}
@@ -696,27 +724,11 @@ p{margin:0}
 [data-reveal-stagger].is-on > *:nth-child(7){transition-delay:.52s}
 [data-reveal-stagger].is-on > *:nth-child(8){transition-delay:.6s}
 
-/* Cursor (desktop) */
-.cursor{
-  position:fixed;top:0;left:0;width:28px;height:28px;border-radius:50%;
-  border:1.5px solid var(--brand);pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);
-  transition:transform .25s var(--ease), opacity .25s, background .25s, border-color .25s, width .25s, height .25s;
-  mix-blend-mode:difference;
-  opacity:0;
-}
-.cursor.is-on{opacity:1}
-.cursor.is-hover{width:54px;height:54px;background:var(--brand);border-color:var(--brand)}
-@media(hover:none){.cursor{display:none}}
-
 /* Misc */
 .no-scroll{overflow:hidden}
 </style>
 </head>
 <body>
-
-<!-- Cursor (desktop only) -->
-<div class="cursor" aria-hidden="true"></div>
 
 <!-- Nav -->
 <header class="nav" id="nav">
@@ -855,28 +867,36 @@ p{margin:0}
     </div>
     <div class="benefits__grid" data-reveal-stagger>
       <article class="benefit">
-        <span class="benefit__num">01</span>
+        <span class="benefit__num">01 / Materials</span>
+        <div class="benefit__body">
+          <h3>Premium materials</h3>
+          <p>We use top-quality paints to ensure vibrant, durable and long-lasting finishes.</p>
+        </div>
         <div class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5 21 9l-1.5 1.5-2-2L9 18l-3 3H3v-3l3-3 8.5-8.5-2-2L14.5 2.5z"/></svg></div>
-        <h3>Premium materials</h3>
-        <p>We use top-quality paints to ensure vibrant, durable and long-lasting finishes.</p>
       </article>
       <article class="benefit">
-        <span class="benefit__num">02</span>
+        <span class="benefit__num">02 / Craft</span>
+        <div class="benefit__body">
+          <h3>Expert craftsmanship</h3>
+          <p>Our trained painters deliver excellence with attention to detail in every stroke.</p>
+        </div>
         <div class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h3>Expert craftsmanship</h3>
-        <p>Our trained painters deliver excellence with attention to detail in every stroke.</p>
       </article>
       <article class="benefit">
-        <span class="benefit__num">03</span>
+        <span class="benefit__num">03 / Speed</span>
+        <div class="benefit__body">
+          <h3>Fast &amp; reliable</h3>
+          <p>We show up on time, work efficiently, and protect every area of your property.</p>
+        </div>
         <div class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <h3>Fast &amp; reliable</h3>
-        <p>We show up on time, work efficiently, and protect every area of your property.</p>
       </article>
       <article class="benefit">
-        <span class="benefit__num">04</span>
+        <span class="benefit__num">04 / Care</span>
+        <div class="benefit__body">
+          <h3>Satisfaction guaranteed</h3>
+          <p>Your peace of mind comes first. We don't leave until you're fully satisfied.</p>
+        </div>
         <div class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div>
-        <h3>Satisfaction guaranteed</h3>
-        <p>Your peace of mind comes first. We don't leave until you're fully satisfied.</p>
       </article>
     </div>
   </div>
@@ -1245,48 +1265,7 @@ p{margin:0}
 <script>
 (() => {
   // ============================
-  // Hero title char reveal (word-safe)
-  // ============================
-  const title = document.querySelector(".hero__title");
-  if (title){
-    const html = title.innerHTML;
-    // Split by spaces, wrap each word in span, each char in inner span
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html;
-    // walk nodes
-    const wrap = document.createElement("span");
-    const walk = (node, target) => {
-      node.childNodes.forEach(n => {
-        if (n.nodeType === 3){
-          const txt = n.textContent;
-          txt.split(/(\s+)/).forEach(part => {
-            if (!part) return;
-            if (/^\s+$/.test(part)){ target.appendChild(document.createTextNode(part)); return; }
-            const w = document.createElement("span");
-            w.className = "word";
-            [...part].forEach(ch => {
-              const c = document.createElement("span");
-              c.className = "char";
-              c.textContent = ch;
-              w.appendChild(c);
-            });
-            target.appendChild(w);
-          });
-        } else {
-          const clone = n.cloneNode(false);
-          walk(n, clone);
-          target.appendChild(clone);
-        }
-      });
-    };
-    walk(tmp, wrap);
-    title.innerHTML = "";
-    title.appendChild(wrap);
-    // stagger
-    const chars = title.querySelectorAll(".char");
-    chars.forEach((c, i) => c.style.transitionDelay = (Math.min(0.012*i, 0.55)) + "s");
-    requestAnimationFrame(() => document.body.classList.add("is-ready"));
-  }
+  // Editorial — hero text shows immediately, no char animation.
 
   // ============================
   // Nav scroll state + drawer
@@ -1400,41 +1379,8 @@ p{margin:0}
     setTimeout(() => success.classList.remove("is-on"), 5000);
   });
 
-  // ============================
-  // Cursor follower (desktop)
-  // ============================
-  const cursor = document.querySelector(".cursor");
+  // Editorial: no cursor follower, no magnetic — keep interactions calm.
   const isFinePointer = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-  if (isFinePointer && cursor){
-    let cx = 0, cy = 0, tx = 0, ty = 0;
-    document.addEventListener("mousemove", (e) => { tx = e.clientX; ty = e.clientY; cursor.classList.add("is-on"); });
-    const loop = () => {
-      cx += (tx - cx) * .22; cy += (ty - cy) * .22;
-      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
-      requestAnimationFrame(loop);
-    };
-    loop();
-    document.querySelectorAll("a, button, [data-tilt], .benefit, .step, .gallery__slide, .area-card").forEach(el => {
-      el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
-      el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
-    });
-  }
-
-  // ============================
-  // Magnetic buttons (desktop)
-  // ============================
-  if (isFinePointer){
-    document.querySelectorAll("[data-magnetic]").forEach(el => {
-      const inner = el.querySelector(".magnet-inner") || el;
-      el.addEventListener("mousemove", (e) => {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left - r.width/2;
-        const y = e.clientY - r.top - r.height/2;
-        inner.style.transform = `translate(${x*0.18}px, ${y*0.22}px)`;
-      });
-      el.addEventListener("mouseleave", () => { inner.style.transform = ""; });
-    });
-  }
 
   // ============================
   // 3D tilt cards (desktop)
